@@ -30,16 +30,17 @@ def test_client_with_api_key(api_key, private_key_hex, base_url):
 
 
 # ---------------------------------------------------------------
-# Trailing slash enforcement
+# Trailing slash is NOT added automatically
 # ---------------------------------------------------------------
-def test_get_appends_trailing_slash(mocked_responses, client_token, base_url):
+def test_get_does_not_modify_path(mocked_responses, client_token, base_url):
+    """Verify the client requests the exact path given (no trailing slash)."""
     mocked_responses.add(
         responses.GET,
-        re.compile(rf"{base_url}/users/profile/?$"),
+        f"{base_url}/v3/orderbook/BTCIRT",      # no trailing slash
         json={"status": "ok"},
     )
-    client_token.get("/users/profile")  # no slash
-    assert mocked_responses.calls[0].request.url.endswith("/users/profile/")
+    client_token.get("/v3/orderbook/BTCIRT")     # exactly as provided
+    assert mocked_responses.calls[0].request.url == f"{base_url}/v3/orderbook/BTCIRT"
 
 
 # ---------------------------------------------------------------
@@ -48,7 +49,7 @@ def test_get_appends_trailing_slash(mocked_responses, client_token, base_url):
 def test_token_auth_header(mocked_responses, client_token, base_url):
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/users/profile/",
+        f"{base_url}/users/profile",
         json={},
     )
     client_token.get("/users/profile")
@@ -59,7 +60,7 @@ def test_token_auth_header(mocked_responses, client_token, base_url):
 def test_api_key_auth_headers(mocked_responses, client_api_key, base_url):
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/users/profile/",
+        f"{base_url}/users/profile",
         json={},
     )
     client_api_key.get("/users/profile")
@@ -77,7 +78,7 @@ def test_api_key_auth_headers(mocked_responses, client_api_key, base_url):
 def test_401_raises_authentication_error(mocked_responses, client_token, base_url):
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/users/profile/",
+        f"{base_url}/users/profile",
         json={"message": "Invalid token"},
         status=401,
     )
@@ -90,7 +91,7 @@ def test_401_raises_authentication_error(mocked_responses, client_token, base_ur
 def test_404_raises_not_found_error(mocked_responses, client_token, base_url):
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/some/endpoint/",
+        f"{base_url}/some/endpoint",
         json={"message": "Not found"},
         status=404,
     )
@@ -102,7 +103,7 @@ def test_404_raises_not_found_error(mocked_responses, client_token, base_url):
 def test_429_raises_rate_limit_error_with_retry(mocked_responses, client_token, base_url):
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/users/profile/",
+        f"{base_url}/users/profile",
         json={"message": "Too many requests"},
         status=429,
         headers={"Retry-After": "30"},
@@ -120,7 +121,7 @@ def test_successful_get_returns_parsed_json(mocked_responses, client_token, base
     expected = {"data": "test"}
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/users/profile/",
+        f"{base_url}/users/profile",
         json=expected,
     )
     result = client_token.get("/users/profile")

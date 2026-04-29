@@ -19,7 +19,7 @@ def test_get_orderbook_single(mocked_responses, client_token, base_url):
     }
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/v3/orderbook/{symbol}/",
+        f"{base_url}/v3/orderbook/{symbol}",          # no slash
         json=expected,
     )
     result = Market(client_token).get_orderbook(symbol)
@@ -34,7 +34,7 @@ def test_get_orderbook_all(mocked_responses, client_token, base_url):
     }
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/v3/orderbook/all/",
+        f"{base_url}/v3/orderbook/all",               # no slash
         json=expected,
     )
     result = Market(client_token).get_orderbook("all")
@@ -55,7 +55,7 @@ def test_get_depth(mocked_responses, client_token, base_url):
     }
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/v2/depth/{symbol}/",
+        f"{base_url}/v2/depth/{symbol}",              # no slash
         json=expected,
     )
     result = Market(client_token).get_depth(symbol)
@@ -76,7 +76,7 @@ def test_get_trades(mocked_responses, client_token, base_url):
     }
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/v2/trades/{symbol}/",
+        f"{base_url}/v2/trades/{symbol}",             # no slash
         json=expected,
     )
     result = Market(client_token).get_trades(symbol)
@@ -90,7 +90,7 @@ def test_get_stats_no_filters(mocked_responses, client_token, base_url):
     expected = {"status": "ok", "stats": {"btc-rls": {}}}
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/market/stats/",
+        f"{base_url}/market/stats",                   # no slash
         json=expected,
     )
     result = Market(client_token).get_stats()
@@ -104,7 +104,7 @@ def test_get_stats_with_filters(mocked_responses, client_token, base_url):
     expected = {"status": "ok", "stats": {"btc-rls": {}}}
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/market/stats/?srcCurrency=btc&dstCurrency=rls",
+        f"{base_url}/market/stats?srcCurrency=btc&dstCurrency=rls",   # no slash before query
         json=expected,
     )
     result = Market(client_token).get_stats(src_currency="btc", dst_currency="rls")
@@ -126,7 +126,7 @@ def test_get_ohlc_basic(mocked_responses, client_token, base_url):
     }
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/market/udf/history/?symbol=BTCIRT&resolution=D&to=1562230967",
+        f"{base_url}/market/udf/history?symbol=BTCIRT&resolution=D&to=1562230967",  # no trailing slash
         json=expected,
     )
     result = Market(client_token).get_ohlc(
@@ -139,7 +139,7 @@ def test_get_ohlc_with_countback(mocked_responses, client_token, base_url):
     expected = {"s": "ok", "t": [1562182200]}
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/market/udf/history/?symbol=BTCIRT&resolution=60&to=1562230967&countback=4",
+        f"{base_url}/market/udf/history?symbol=BTCIRT&resolution=60&to=1562230967&countback=4",
         json=expected,
     )
     result = Market(client_token).get_ohlc(
@@ -155,7 +155,7 @@ def test_get_ohlc_with_page(mocked_responses, client_token, base_url):
     expected = {"s": "ok", "t": [1562182200]}
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/market/udf/history/?symbol=BTCIRT&resolution=D&to=1562230967&page=2",
+        f"{base_url}/market/udf/history?symbol=BTCIRT&resolution=D&to=1562230967&page=2",
         json=expected,
     )
     result = Market(client_token).get_ohlc(

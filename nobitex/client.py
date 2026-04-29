@@ -4,7 +4,6 @@ Synchronous HTTP client for the Nobitex API v2.
 Supports:
 - Token authentication (obtained from panel or via /auth/login/)
 - API‑Key authentication (Ed25519 signature) – requires the ``cryptography`` package
-- Automatic trailing‑slash enforcement
 - Configurable User‑Agent header
 - Centralised error handling via ``exceptions.raise_for_error``
 """
@@ -158,9 +157,6 @@ class Client:
         Raises:
             APIError: on non‑2xx responses.
         """
-        # Ensure trailing slash (API requirement)
-        if not path.endswith("/"):
-            path += "/"
 
         url = f"{self._base_url}{path}"
 
