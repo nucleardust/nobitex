@@ -1,0 +1,16 @@
+[build-system]
+requires      = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name          = "nobitex"
+version       = "0.1.0"
+description   = "Python wrapper for the Nobitex API"
+requires-python = ">=3.8"
+dependencies  = [
+    "requests>=2.28",
+    "cryptography>=41.0",   # only needed if you use API-Key (Ed25519) auth
+]
+
+[tool.setuptools.packages.find]
+include = ["nobitex*"]
