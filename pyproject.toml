@@ -5,11 +5,33 @@ build-backend = "setuptools.build_meta"
 [project]
 name          = "nobitex"
 version       = "0.1.0"
-description   = "Python wrapper for the Nobitex API"
+description   = "Python wrapper for the Nobitex cryptocurrency exchange API"
+readme        = "README.md"
 requires-python = ">=3.8"
-dependencies  = [
+license       = {text = "MIT"}
+authors       = [{name = "nucleardust"}]
+keywords      = ["nobitex", "crypto", "exchange", "api", "bitcoin"]
+classifiers   = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
     "requests>=2.28",
-    "cryptography>=41.0",   # only needed if you use API-Key (Ed25519) auth
+    "cryptography>=41.0",   # required for API‑Key (Ed25519) authentication
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "responses>=0.23",
 ]
 
 [tool.setuptools.packages.find]
