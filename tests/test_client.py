@@ -1,6 +1,4 @@
-import json
 import re
-
 import pytest
 import responses
 
@@ -34,24 +32,19 @@ def test_client_with_api_key(api_key, private_key_hex, base_url):
 # ---------------------------------------------------------------
 # Trailing slash enforcement
 # ---------------------------------------------------------------
-@responses.activate
 def test_get_appends_trailing_slash(mocked_responses, client_token, base_url):
-    # Mock any GET to /users/profile/ (with slash)
     mocked_responses.add(
         responses.GET,
         re.compile(rf"{base_url}/users/profile/?$"),
         json={"status": "ok"},
     )
-    # Request without trailing slash
     client_token.get("/users/profile")  # no slash
-    # Check that the called URL ended with /
     assert mocked_responses.calls[0].request.url.endswith("/users/profile/")
 
 
 # ---------------------------------------------------------------
 # Authentication headers
 # ---------------------------------------------------------------
-@responses.activate
 def test_token_auth_header(mocked_responses, client_token, base_url):
     mocked_responses.add(
         responses.GET,
@@ -63,7 +56,6 @@ def test_token_auth_header(mocked_responses, client_token, base_url):
     assert headers["Authorization"] == f"Token {client_token._token}"
 
 
-@responses.activate
 def test_api_key_auth_headers(mocked_responses, client_api_key, base_url):
     mocked_responses.add(
         responses.GET,
@@ -76,14 +68,12 @@ def test_api_key_auth_headers(mocked_responses, client_api_key, base_url):
     assert "Nobitex-Signature" in headers
     assert "Nobitex-Timestamp" in headers
     assert headers["Nobitex-Key"] == client_api_key._api_key
-    # Signature is non‑empty
     assert len(headers["Nobitex-Signature"]) > 0
 
 
 # ---------------------------------------------------------------
 # Error mapping
 # ---------------------------------------------------------------
-@responses.activate
 def test_401_raises_authentication_error(mocked_responses, client_token, base_url):
     mocked_responses.add(
         responses.GET,
@@ -97,7 +87,6 @@ def test_401_raises_authentication_error(mocked_responses, client_token, base_ur
     assert "Invalid token" in str(exc_info.value)
 
 
-@responses.activate
 def test_404_raises_not_found_error(mocked_responses, client_token, base_url):
     mocked_responses.add(
         responses.GET,
@@ -110,7 +99,6 @@ def test_404_raises_not_found_error(mocked_responses, client_token, base_url):
     assert exc_info.value.status_code == 404
 
 
-@responses.activate
 def test_429_raises_rate_limit_error_with_retry(mocked_responses, client_token, base_url):
     mocked_responses.add(
         responses.GET,
@@ -128,7 +116,6 @@ def test_429_raises_rate_limit_error_with_retry(mocked_responses, client_token, 
 # ---------------------------------------------------------------
 # Success case – returns JSON
 # ---------------------------------------------------------------
-@responses.activate
 def test_successful_get_returns_parsed_json(mocked_responses, client_token, base_url):
     expected = {"data": "test"}
     mocked_responses.add(
