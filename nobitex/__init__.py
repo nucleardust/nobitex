@@ -17,6 +17,5 @@ from .exceptions import (
     RateLimitError,
     ServerError,
     ServiceUnavailableError,
-    UnprocessableEntityError,
-    ValidationError,
+    UnprocessableEntityError,   # This is the 422 error (validation)
 )
