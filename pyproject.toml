@@ -36,3 +36,8 @@ dev = [
 
 [tool.setuptools.packages.find]
 include = ["nobitex*"]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests that require live API credentials (deselect with '-m \"not integration\"')",
+]
