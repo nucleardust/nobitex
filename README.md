@@ -1,4 +1,3 @@
-```markdown
 # nobitex
 
 Python client for the [Nobitex](https://nobitex.ir/) API v2.
@@ -126,4 +125,3 @@ pytest tests/test_integration.py -v
 ## License
 
 MIT
-```
