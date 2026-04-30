@@ -24,7 +24,12 @@ Python client for the [Nobitex](https://nobitex.ir/) API v2.
 ## Installation
 
 ```bash
-pip install nobitex
+git clone https://github.com/nucleardust/nobitex.git
+cd nobitex
+python -m venv .venv
+source .venv/bin/activate      # Linux/macOS
+# .venv\Scripts\activate       # Windows
+pip install -e .
 ```
 
 ## Quick start
