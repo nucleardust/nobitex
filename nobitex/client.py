@@ -240,14 +240,29 @@ class Client:
     ) -> Any:
         return self._request("POST", path, json=json, data=data)
 
-    def put(self, path: str, json: Optional[Any] = None) -> Any:
-        return self._request("PUT", path, json=json)
+    def put(
+        self,
+        path: str,
+        params: Optional[Dict[str, Any]] = None,
+        json: Optional[Any] = None,
+    ) -> Any:
+        return self._request("PUT", path, params=params, json=json)
 
-    def delete(self, path: str, params: Optional[Dict[str, Any]] = None) -> Any:
-        return self._request("DELETE", path, params=params)
+    def delete(
+        self,
+        path: str,
+        params: Optional[Dict[str, Any]] = None,
+        json: Optional[Any] = None,
+    ) -> Any:
+        return self._request("DELETE", path, params=params, json=json)
 
-    def patch(self, path: str, json: Optional[Any] = None) -> Any:
-        return self._request("PATCH", path, json=json)
+    def patch(
+        self,
+        path: str,
+        params: Optional[Dict[str, Any]] = None,
+        json: Optional[Any] = None,
+    ) -> Any:
+        return self._request("PATCH", path, params=params, json=json)
 
     # ------------------------------------------------------------------
     # Context manager support

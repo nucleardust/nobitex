@@ -1,5 +1,6 @@
 """Tests for the Account resource (authenticated endpoints)."""
 
+import json
 import pytest
 import responses
 
@@ -30,7 +31,7 @@ def test_get_wallets_list_default_spot(mocked_responses, client_token, base_url)
     expected = {"status": "ok", "wallets": [{"id": 1, "currency": "rls"}]}
     mocked_responses.add(
         responses.GET,
-        f"{base_url}/users/wallets/list",    # no query param for "spot"
+        f"{base_url}/users/wallets/list",
         json=expected,
     )
     result = Account(client_token).get_wallets_list()
@@ -91,7 +92,9 @@ def test_get_wallets_v2_both_params(mocked_responses, client_token, base_url):
         f"{base_url}/v2/wallets?currencies=btc&type=margin",
         json=expected,
     )
-    result = Account(client_token).get_wallets_v2(currencies="btc", wallet_type="margin")
+    result = Account(client_token).get_wallets_v2(
+        currencies="btc", wallet_type="margin"
+    )
     assert result == expected
 
 
@@ -108,7 +111,6 @@ def test_get_balance(mocked_responses, client_token, base_url):
     )
     result = Account(client_token).get_balance(currency)
     assert result == expected
-    # Check that the correct JSON body was sent
     request_body = mocked_responses.calls[0].request.body
     assert f'"currency":"{currency}"' in (request_body or "")
 
@@ -127,7 +129,7 @@ def test_generate_address_without_network(mocked_responses, client_token, base_u
     assert result == expected
     body = mocked_responses.calls[0].request.body
     assert '"currency":"btc"' in (body or "")
-    assert "network" not in (body or "")   # network not sent
+    assert "network" not in (body or "")
 
 
 def test_generate_address_with_network(mocked_responses, client_token, base_url):
@@ -156,9 +158,9 @@ def test_add_card(mocked_responses, client_token, base_url):
     )
     result = Account(client_token).add_card(number="5041721011111111", bank="رسالت")
     assert result == expected
-    body = mocked_responses.calls[0].request.body
-    assert '"number":"5041721011111111"' in (body or "")
-    assert '"bank":"رسالت"' in (body or "")
+    body = json.loads(mocked_responses.calls[0].request.body)
+    assert body["number"] == "5041721011111111"
+    assert body["bank"] == "رسالت"
 
 
 # ---------------------------------------------------------------
@@ -177,9 +179,9 @@ def test_add_bank_account(mocked_responses, client_token, base_url):
         bank="ملی",
     )
     assert result == expected
-    body = mocked_responses.calls[0].request.body
-    assert '"number":"0346666666666"' in (body or "")
-    assert '"shaba":"IR460170000000346666666666"' in (body or "")
+    body = json.loads(mocked_responses.calls[0].request.body)
+    assert body["number"] == "0346666666666"
+    assert body["shaba"] == "IR460170000000346666666666"
 
 
 # ---------------------------------------------------------------
@@ -230,11 +232,11 @@ def test_get_transactions_history_no_filters(mocked_responses, client_token, bas
 
 def test_get_transactions_history_all_filters(mocked_responses, client_token, base_url):
     expected = {"status": "ok", "transactions": [{"id": 10}], "hasNext": False}
-    params = {
+    kwargs = {
         "currency": "ltc",
         "tp": "withdraw",
-        "from": "2018-10-01T00:00:00+00:00",
-        "to": "2018-10-20T00:00:00+00:00",
+        "from_date": "2018-10-01T00:00:00+00:00",
+        "to_date": "2018-10-20T00:00:00+00:00",
         "from_id": 96124,
     }
     query = (
@@ -248,7 +250,7 @@ def test_get_transactions_history_all_filters(mocked_responses, client_token, ba
         f"{base_url}/users/transactions-history?{query}",
         json=expected,
     )
-    result = Account(client_token).get_transactions_history(**params)
+    result = Account(client_token).get_transactions_history(**kwargs)
     assert result == expected
 
 
@@ -262,7 +264,7 @@ def test_get_deposits_all(mocked_responses, client_token, base_url):
         f"{base_url}/users/wallets/deposits/list",
         json=expected,
     )
-    result = Account(client_token).get_deposits()   # default wallet_id=None
+    result = Account(client_token).get_deposits()
     assert result == expected
 
 
@@ -316,8 +318,8 @@ def test_delete_favorite_markets_single(mocked_responses, client_token, base_url
     )
     result = Account(client_token).delete_favorite_markets(market)
     assert result == expected
-    body = mocked_responses.calls[0].request.body
-    assert f'"market":"{market}"' in (body or "")
+    body = json.loads(mocked_responses.calls[0].request.body)
+    assert body["market"] == market
 
 
 def test_delete_favorite_markets_all(mocked_responses, client_token, base_url):
@@ -329,5 +331,5 @@ def test_delete_favorite_markets_all(mocked_responses, client_token, base_url):
     )
     result = Account(client_token).delete_favorite_markets("All")
     assert result == expected
-    body = mocked_responses.calls[0].request.body
-    assert '"market":"All"' in (body or "")
+    body = json.loads(mocked_responses.calls[0].request.body)
+    assert body["market"] == "All"
