@@ -4,7 +4,7 @@ Python client for the [Nobitex](https://nobitex.ir/) API v2.
 
 ![Demo](assets/demo.gif)
 
-### Status
+## Status
 
 - [x] Token & API‑Key authentication
 - [x] Public market data (orderbook, trades, OHLC, stats)
