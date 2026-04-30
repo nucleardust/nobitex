@@ -2,6 +2,8 @@
 
 Python client for the [Nobitex](https://nobitex.ir/) API v2.
 
+![Demo](assets/demo.gif)
+
 ## Installation
 
 ```bash
