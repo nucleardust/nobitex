@@ -33,6 +33,9 @@ dev = [
     "pytest>=7.0",
     "responses>=0.23",
 ]
+websocket = [
+    "centrifuge-python>=0.4.0",
+]
 
 [tool.setuptools.packages.find]
 include = ["nobitex*"]
@@ -40,8 +43,4 @@ include = ["nobitex*"]
 [tool.pytest.ini_options]
 markers = [
     "integration: marks tests that require live API credentials (deselect with '-m \"not integration\"')",
-]
-
-websocket = [
-    "centrifuge-python>=0.4.0",
 ]
