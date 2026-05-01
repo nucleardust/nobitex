@@ -41,3 +41,7 @@ include = ["nobitex*"]
 markers = [
     "integration: marks tests that require live API credentials (deselect with '-m \"not integration\"')",
 ]
+
+websocket = [
+    "centrifuge-python>=0.4.0",
+]
