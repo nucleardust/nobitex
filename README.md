@@ -20,7 +20,7 @@ Python client for the [Nobitex](https://nobitex.ir/) API v2.
 ## Installation
 
 ```bash
-pip install nobitex
+pip install nobitex-peach
 ```
 
 *For local development:*
@@ -33,8 +33,8 @@ pip install -e .
 
 ### Optional dependencies
 
-- **WebSocket** `pip install nobitex[websocket]`
-- **Dev tools** `pip install nobitex[dev]`
+- **WebSocket** `pip install nobitex-peach[websocket]`
+- **Dev tools** `pip install nobitex-peach[dev]`
 
 ## Quick start
 
