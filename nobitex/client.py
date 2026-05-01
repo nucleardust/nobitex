@@ -229,40 +229,41 @@ class Client:
     # ------------------------------------------------------------------
     # Convenience methods
     # ------------------------------------------------------------------
-    def get(self, path: str, params: Optional[Dict[str, Any]] = None) -> Any:
-        return self._request("GET", path, params=params)
+    def get(
+        self, path: str, params: Optional[Dict[str, Any]] = None,
+        headers: Optional[Dict[str, str]] = None,
+    ) -> Any:
+        return self._request("GET", path, params=params, headers=headers)
 
     def post(
-        self,
-        path: str,
+        self, path: str,
         json: Optional[Any] = None,
         data: Optional[Any] = None,
+        headers: Optional[Dict[str, str]] = None,
     ) -> Any:
-        return self._request("POST", path, json=json, data=data)
+        return self._request("POST", path, json=json, data=data, headers=headers)
 
     def put(
-        self,
-        path: str,
-        params: Optional[Dict[str, Any]] = None,
+        self, path: str,
         json: Optional[Any] = None,
+        headers: Optional[Dict[str, str]] = None,
     ) -> Any:
-        return self._request("PUT", path, params=params, json=json)
+        return self._request("PUT", path, json=json, headers=headers)
 
     def delete(
-        self,
-        path: str,
+        self, path: str,
         params: Optional[Dict[str, Any]] = None,
         json: Optional[Any] = None,
+        headers: Optional[Dict[str, str]] = None,
     ) -> Any:
-        return self._request("DELETE", path, params=params, json=json)
+        return self._request("DELETE", path, params=params, json=json, headers=headers)
 
     def patch(
-        self,
-        path: str,
-        params: Optional[Dict[str, Any]] = None,
+        self, path: str,
         json: Optional[Any] = None,
+        headers: Optional[Dict[str, str]] = None,
     ) -> Any:
-        return self._request("PATCH", path, params=params, json=json)
+        return self._request("PATCH", path, json=json, headers=headers)
 
     # ------------------------------------------------------------------
     # Context manager support
