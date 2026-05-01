@@ -3,7 +3,7 @@ requires      = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name          = "nobitex"
+name          = "nobitex-peach"
 version       = "0.1.0"
 description   = "Python wrapper for the Nobitex cryptocurrency exchange API"
 readme        = "README.md"
