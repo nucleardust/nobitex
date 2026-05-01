@@ -6,19 +6,7 @@ Python client for the [Nobitex](https://nobitex.ir/) API v2.
 
 ## Status
 
-- [x] Token & API‑Key authentication
-- [x] Public market data (orderbook, trades, OHLC, stats)
-- [x] Account management (profile, wallets, balance, transactions)
-- [x] Spot trading (place, cancel, query orders, trade history)
-- [x] Margin trading (markets, positions, collateral, close)
-- [ ] Crypto withdrawal
-- [ ] Fiat withdrawal
-- [ ] Withdrawal list & address book
-- [ ] Websocket streams
-- [ ] Security (API key management)
-- [ ] Referral program
-- [ ] Profit & loss history
-- [ ] Other endpoints
+- [x] REST implementations
 - [ ] Async support
 
 ## Installation
